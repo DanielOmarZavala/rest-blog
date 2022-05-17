@@ -36,4 +36,9 @@ public class PostsController {
     private void createPost(@RequestBody Post post) {
         System.out.println(post);
     }
+
+    @PutMapping("{id}")
+    private void updatePost(@PathVariable long id, @RequestBody Post post) {
+        System.out.println(id);
+    }
 }
