@@ -3,6 +3,7 @@ package com.example.restblog.web;
 import com.example.restblog.data.Post;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,11 @@ public class PostsController {
 
     @PutMapping("{id}")
     private void updatePost(@PathVariable long id, @RequestBody Post post) {
+        System.out.println(id);
+    }
+
+    @DeleteMapping("{id}")
+    private void deletePost(@PathVariable long id) {
         System.out.println(id);
     }
 }
