@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json")
 public class PostsController {
@@ -34,17 +35,17 @@ public class PostsController {
     }
 
     @PostMapping()
-    private void createPost(@RequestBody Post post) {
-        System.out.println(post);
+    private void createPost(@RequestBody Post postToAdd) {
+        System.out.println(postToAdd);
     }
 
     @PutMapping("{id}")
-    private void updatePost(@PathVariable long id, @RequestBody Post post) {
+    private void updatePost(@PathVariable long id, @RequestBody Post updatedPost) {
         System.out.println(id);
     }
 
     @DeleteMapping("{id}")
     private void deletePost(@PathVariable long id) {
-        System.out.println(id);
+        System.out.println("Deleted id: " + id);
     }
 }
