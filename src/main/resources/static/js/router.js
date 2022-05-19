@@ -26,6 +26,13 @@ export default function router(URI) {
             title: "Login",
             viewEvent: LoginEvent
         },
+        '/register': {
+          returnView: Register,
+          state: {},
+          uri: '/register',
+          title: "Register",
+          viewEvent: RegisterEvent
+        },
         '/posts': {
             returnView: PostIndex,
             state: {
@@ -33,7 +40,7 @@ export default function router(URI) {
             },
             uri: '/posts',
             title: 'All Posts',
-            postEvent: PostsEvent
+            viewEvent: PostsEvent
         },
         '/about': {
             returnView: About,

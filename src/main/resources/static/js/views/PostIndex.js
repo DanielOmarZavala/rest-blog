@@ -41,26 +41,84 @@ export default function PostIndex(props) {
 // TODO: Continue writing PostsEvent() from lesson 7 in JS section
 export function PostsEvent() {
 
-
+    createSubmitPostListener();
+    createEditPostListener();
+    createDeletePostListener()
 }
 
-function createAddPostListener() {
+function createSubmitPostListener() {
 
-    $("#submit-btn").click(function () {
-
+    $(document).on('click', '#submit-btn', function (e) {
+        e.preventDefault();
         const newPost = {
             title: $("#add-post-title").val(),
             content: $("#add-post-content").val()
         }
 
         const request = {
-            method: "POST",
+            method: requestMethod,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newPost)
         }
 
+        let requestUrl = "";
 
-    });
+        if (postId !== "") {
+            requestUrl = `${BASE_URL}/${postId}`;
+        } else {
+            requestUrl = `${BASE_URL}`;
+        }
+
+        fetch(requestUrll, request)
+            .then(res => {
+                console.log(res.status);
+                //createView("/posts");
+            }).catch(error => {
+            console.log(error);
+            //crete View("/posts");
+        }).finally(() => {
+            postId = "";
+            requestMethod = "POST";
+            createView("/posts")
+        })
+    })
+}
+
+function createEditPostListener() {
+    $(document).on('click', '.edit-button', function (e) {
+        e.preventDefault();
+        postId = $(this).data("id");
+        requestMethod = "PUT";
+
+        const postTitle = $(`#title-${postId}`).text();
+        const postContent = $(`#content-${postId}`).text();
+
+        $("#add-post-title").val(postTitle);
+        $("add-post-content").val(postContent);
+    })
+}
+
+function createDeletePostListener() {
+    $(document).on('click', '.delete-button', function (e) {
+        e.preventDefault();
+
+        const id = $(this).data("id");
+
+        const request = {
+            method: "DELETE"
+        }
+
+        fetch(`${BASE_URL}/${id}`, request)
+            .then(res => {
+                console.log(res.status);
+                //createView("/posts")
+            }).catch(error => {
+            console.log(error);
+            //createView("/posts");
+        }).finally(() => {
+            createView("/posts")
+        })
+    })
 }
