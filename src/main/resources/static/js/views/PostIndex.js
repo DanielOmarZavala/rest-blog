@@ -38,7 +38,6 @@ export default function PostIndex(props) {
     `;
 }
 
-// TODO: Continue writing PostsEvent() from lesson 7 in JS section
 export function PostsEvent() {
 
     createSubmitPostListener();
