@@ -5,6 +5,8 @@ import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
 import Login from "./views/Login.js";
 import LoginEvent from "./auth.js";
+import Register, {RegisterEvent} from "./views/Register.js";
+import UserIndex, {UserEvent} from "./views/User.js";
 
 /**
  * Returns the route object for a specific route based on the given URI
@@ -42,6 +44,15 @@ export default function router(URI) {
             title: 'All Posts',
             viewEvent: PostsEvent
         },
+        // '/user': {
+        //     returnView: UserIndex,
+        //     state: {
+        //         user: '/api/users/1'
+        //     },
+        //     uri: '/user',
+        //     title: 'User',
+        //     viewEvent: UserEvent
+        // },
         '/about': {
             returnView: About,
             state: {},

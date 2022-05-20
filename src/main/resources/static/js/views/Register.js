@@ -10,7 +10,7 @@ export default function Register() {
         </head>
         <body>
         <h1>Register here!</h1>
-        
+
         <form id="register-form">
             <label for="username">Username</label>
             <input id="username" name="username" type="text"/>
@@ -25,8 +25,26 @@ export default function Register() {
     `;
 }
 
-//TODO #1: Begin at FEA-5-C.4 and ensure js/router.js is correct.
+export function RegisterEvent() {
 
-//TODO #2: Complete Register.js and add export function RegisterEvent() below.
+    $(document).on('click', '#register-btn', function (e) {
+        const reqBody = {
+            username: $('#username').val(),
+            email: $('#email').val(),
+            password: $('#password').val()
+        }
 
-//TODO #3: Complete router.js and fill fields to properly load the page.
+        const options = {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+            body: JSON.stringify(reqBody)
+        }
+
+        fetch("http://localhost:8080/api/users", options)
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
+    })
+}

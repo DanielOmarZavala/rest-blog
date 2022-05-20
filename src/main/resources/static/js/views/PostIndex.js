@@ -70,7 +70,7 @@ function createSubmitPostListener() {
             requestUrl = `${BASE_URL}`;
         }
 
-        fetch(requestUrll, request)
+        fetch(requestUrl, request)
             .then(res => {
                 console.log(res.status);
                 //createView("/posts");
