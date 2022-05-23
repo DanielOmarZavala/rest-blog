@@ -1,3 +1,5 @@
+import createView from "../createView.js";
+
 export default function Register() {
 
     //language=HTML
@@ -44,7 +46,7 @@ export function RegisterEvent() {
 
         fetch("http://localhost:8080/api/users", options)
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => createView("/register"))
             .catch(err => console.log(err))
     })
 }
