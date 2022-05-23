@@ -4,7 +4,6 @@ import com.example.restblog.data.Post;
 import com.example.restblog.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +20,6 @@ public class PostsController {
 
     @GetMapping() // /api/posts/
     private List<Post> getAll() {
-
         return userService.getPostList();
     }
 
