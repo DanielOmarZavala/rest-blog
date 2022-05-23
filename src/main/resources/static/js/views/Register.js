@@ -46,7 +46,7 @@ export function RegisterEvent() {
 
         fetch("http://localhost:8080/api/users", options)
             .then(res => res.json())
-            .then(data => createView("/register"))
+            .then(data => console.log(data))
             .catch(err => console.log(err))
     })
 }

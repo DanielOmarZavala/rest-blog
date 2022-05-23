@@ -37,7 +37,7 @@ function addUpdatePasswordListener() {
             }
         }
 
-        fetch(`${BASE_URL}/${id}}/updatePassword?newPassword=${newPassword}`, request)
+        fetch(`${BASE_URL}/${id}/updatePassword?newPassword=${newPassword}`, request)
             .then(res => {
                 console.log(res.status);
             }).catch(error => {

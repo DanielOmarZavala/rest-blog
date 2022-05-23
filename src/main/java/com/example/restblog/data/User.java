@@ -1,6 +1,10 @@
 package com.example.restblog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private Long id;
@@ -9,6 +13,9 @@ public class User {
     private String password;
     private LocalDateTime createdAt = LocalDateTime.now();
     private Role role = Role.USER;
+
+    @JsonIgnoreProperties("user")
+private List<Post> posts = new ArrayList<>();
 
     public enum Role {USER, ADMIN};
 
@@ -75,6 +82,10 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public List<Post> getPosts() {return posts;}
+
+    public void setPosts(List<Post> posts) {this.posts = posts;}
 
     @Override
     public String toString() {

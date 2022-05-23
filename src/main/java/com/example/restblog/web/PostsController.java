@@ -1,6 +1,7 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
+import com.example.restblog.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,18 +13,22 @@ import java.util.Objects;
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json")
 public class PostsController {
 
-    List<Post> postObjectArrList = setPostList();
+    private final UserService userService;
+
+    public PostsController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping() // /api/posts/
     private List<Post> getAll() {
 
-        return postObjectArrList;
+        return userService.getPostList();
     }
 
     @GetMapping("{id}")
     public Post getById(@PathVariable long id) {
 
-        for (Post post : getAll()) {
+        for (Post post : userService.getPostList()) {
             if (Objects.equals(post.getId(), id)) {
                 return post;
             }
@@ -36,9 +41,14 @@ public class PostsController {
         System.out.println(postToAdd);
     }
 
+    @PostMapping("{username}")
+    public void createByUsername(@PathVariable String username, @RequestBody Post newPost) {
+        userService.addPost(newPost, username);
+    }
+
     @PutMapping("{id}")
     private void updatePost(@PathVariable long id, @RequestBody Post updatedPost) {
-        for (Post post : postObjectArrList) {
+        for (Post post : userService.getPostList()) {
             if (post.getId().equals(id)) {
                 post.setContent(updatedPost.getContent());
                 post.setTitle(updatedPost.getTitle());
@@ -48,20 +58,7 @@ public class PostsController {
 
     @DeleteMapping("{id}")
     private void deletePost(@PathVariable long id) {
-        System.out.println("Deleted post with ID: " + id);
+        userService.deletePostById(id);
     }
 
-    private List<Post> setPostList() {
-        List<Post> postList = new ArrayList<>();
-
-        Post objOne = new Post(1L, "Title 1", "Desc 1");
-        Post objTwo = new Post(2L, "Title 2", "Desc 2");
-        Post objThree = new Post(3L, "Title 3", "Desc 3");
-
-        postList.add(objOne);
-        postList.add(objTwo);
-        postList.add(objThree);
-
-        return postList;
-    }
 }
