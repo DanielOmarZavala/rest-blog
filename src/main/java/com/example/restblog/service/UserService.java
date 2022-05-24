@@ -1,7 +1,9 @@
 package com.example.restblog.service;
 
 import com.example.restblog.data.Post;
+import com.example.restblog.data.PostsRepository;
 import com.example.restblog.data.User;
+import com.example.restblog.data.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,15 +12,20 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private List<User> userList = setUserList();
-    public List<Post> posts = setPostList();
+    private final UsersRepository usersRepository;
+    private final PostsRepository postsRepository;
+
+    public UserService(UsersRepository usersRepository, PostsRepository postsRepository) {
+        this.usersRepository = usersRepository;
+        this.postsRepository = postsRepository;
+    }
 
     public List<User> getUsersList() {
-        return userList;
+        return usersRepository.findAll();
     }
 
     public List<Post> getPostList() {
-        return posts;
+        return postsRepository.findAll();
     }
 
     public void addPost(Post newPost, String username) {
@@ -29,57 +36,54 @@ public class UserService {
 
         newPost.setUser(user);
 
-        posts.add(newPost);
+        postsRepository.save(newPost);
     }
 
     public User getUserById(Long id) {
 
-        for (User user : userList) {
-            if(user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+        return usersRepository.findById(id).orElseThrow();
     }
 
     public User getUserByUsername(String username) {
-        for (User user : userList) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
+        return usersRepository.findByUsername(username);
+    }
+
+    public void updatePost(long postId, Post post) {
+        Post postToUpdate = postsRepository.findById(postId).orElseThrow();
+
+        if (post.getContent() != null && !post.getContent().isEmpty()) {
+            postToUpdate.setContent(post.getContent());
         }
-        ;
-        return null;
+        if (post.getTitle() != null && !post.getTitle().isEmpty()) {
+            postToUpdate.setTitle(post.getTitle());
+        }
+
+        postsRepository.save(postToUpdate);
     }
 
     public void deletePostById(long id) {
-        for (Post post : posts) {
-            if (post.getId() == id) {
-                posts.remove(post);
-                return;
-            }
-        }
+        postsRepository.deleteById(id);
     }
 
-    private List<User> setUserList() {
-
-        List<User> userList = new ArrayList<>();
-
-        userList.add(new User(1L, "Ace Ventura", "ventura@petdetective.com", "SaveTheAnimal$"));
-        userList.add(new User(2L, "The Dude", "duder@bowling.com", "whiterussian1234"));
-        userList.add(new User(3L, "Franky", "frankyfrank@gmail.com", "60298347"));
-
-        return userList;
-    }
-
-    private List<Post> setPostList() {
-
-        List<Post> postList = new ArrayList<>();
-
-        postList.add(new Post(1L, "Post 1", "Content Displayed Here", userList.get(0)));
-        postList.add(new Post(2L, "Post 2", "Content Displayed Here", userList.get(1)));
-        postList.add(new Post(3L, "Post 3", "Content Displayed Here", userList.get(0)));
-
-        return postList;
-    }
+//    private List<User> setUserList() {
+//
+//        List<User> userList = new ArrayList<>();
+//
+//        userList.add(new User(1L, "Ace Ventura", "ventura@petdetective.com", "SaveTheAnimal$"));
+//        userList.add(new User(2L, "The Dude", "duder@bowling.com", "whiterussian1234"));
+//        userList.add(new User(3L, "Franky", "frankyfrank@gmail.com", "60298347"));
+//
+//        return userList;
+//    }
+//
+//    private List<Post> setPostList() {
+//
+//        List<Post> postList = new ArrayList<>();
+//
+//        postList.add(new Post(1L, "Post 1", "Content Displayed Here", userList.get(0)));
+//        postList.add(new Post(2L, "Post 2", "Content Displayed Here", userList.get(1)));
+//        postList.add(new Post(3L, "Post 3", "Content Displayed Here", userList.get(0)));
+//
+//        return postList;
+//    }
 }

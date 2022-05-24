@@ -46,12 +46,7 @@ public class PostsController {
 
     @PutMapping("{id}")
     private void updatePost(@PathVariable long id, @RequestBody Post updatedPost) {
-        for (Post post : userService.getPostList()) {
-            if (post.getId().equals(id)) {
-                post.setContent(updatedPost.getContent());
-                post.setTitle(updatedPost.getTitle());
-            }
-        }
+        userService.updatePost(id, updatedPost);
     }
 
     @DeleteMapping("{id}")
