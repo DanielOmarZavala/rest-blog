@@ -32,4 +32,8 @@ public class UserService {
         user.setEmail(newEmail);
         usersRepository.save(user);
     }
+
+    public void createUser (User user) {
+        usersRepository.save(user);
+    }
 }
